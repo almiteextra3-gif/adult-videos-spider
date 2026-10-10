@@ -1,0 +1,52 @@
+{% macro render_field(field) %}
+	
+	<div class="control-group {% if field.errors %}error{% endif %}">
+	<label class="control-label" for="{{ field.label.field_id }}">{{ _(field.label.text) }}</label>
+		
+	{{ field(**kwargs)|safe }}
+	{% if field.errors %}
+		{% for error in field.errors %}
+			<div class="error_message">{{ _(error) }}</div>
+		{% endfor %}
+	{% endif %}
+		
+	</div>
+{% endmacro %}
+
+{% macro show_affiliate(aff) %}
+	{% if aff %}
+		<div class="affiliate">
+			<a rel="nofollow" target="_blank" href="{{ aff.url }}">
+				<img src="{{ url_for("static", filename="affiliates/img/" + aff.img) }}">
+			</a>
+		</div>
+	{% endif %}
+{% endmacro %}
+
+{% macro render_pagination(pagination, endpoint) %}
+	{% if pagination.pages > 1 %}
+		<div class="pagination">
+
+		{% if pagination.has_prev %}
+			<div class="page"><a href="{{ url_for(endpoint, page=pagination.prev_num, **kwargs) }}">{{ _("prev") }}</a></div>
+		{% endif %}
+
+		{%- for page in pagination.iter_pages() %}
+			{% if page %}
+				{% if page != pagination.page %}
+					<div class="page"><a href="{{ url_for(endpoint, page=page, **kwargs) }}">{{ page }}</a></div>
+				{% else %}
+					<div class="page active"><strong>{{ page }}</strong></div>
+				{% endif %}
+			{% else %}
+				<span class="ellipsis">…</span>
+			{% endif %}
+		{%- endfor %}
+
+		{% if pagination.has_next %}
+			<div class="page"><a href="{{ url_for(endpoint, page=pagination.next_num, **kwargs) }}">{{ _("next") }}</a></div>
+		{% endif %}
+
+		</div>
+	{% endif %}
+{% endmacro %}

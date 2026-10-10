@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="{{ g.lang_code }}">
+<head>
+	<title>{% block title %}{{ _("MyLust.xxx best free adult porn videos") }}{% endblock %}</title>
+	<meta name="robots" content="index, archive, follow">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="keywords" content="{{ keywords | default(_("porn, sex, porno, free porn, porn tube, porn videos, streaming porn, sex videos, free pussy, pussy"), true) }}">
+	<meta name="description" content="{{ description | default(_("MyLust brings you new free porn videos every day. Watch great xxx sex videos and pornos at the best free pussy and porn tube site on the web."), true) }}">
+
+	<meta name='yandex-verification' content='7392bbc91b90268d'>
+	<meta name="msvalidate.01" content="62188F55275960794DDFA698C3EA9F05">
+	<meta name="redtube-domain-validation" content="3d92a1dbc6aa887c">
+
+	<link rel="shortcut icon" href="{{ url_for("favicon", _external=True) }}">
+
+	{% from "macros.html" import show_affiliate %}
+
+	<script type="text/javascript">
+		var ml_disclaimer_page = "{{ url_for("catalog.page", slug="disclaimer") }}";
+		var ml_current_locale = "{{ g.lang_code }}";
+		var ml_show_disclaimer = false;
+		var ml_affiliates_url = "{{ get_affiliate("link").url }}"
+
+		{% if not hide_search %}
+			var ml_search_length_error = "{{ _("Sorry, but the search query must contain more then 3 and less then 32 symbols.") }}";
+		{% endif %}
+	</script>
+
+	<!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+	{% assets "css" %}
+	<link rel="stylesheet" type="text/css" media="screen" href="{{ ASSET_URL }}">
+	{% endassets %}
+
+	{% assets "js" %}
+	<script type="text/javascript" src="{{ ASSET_URL }}"></script>
+	{% endassets %}
+
+	<script type="text/javascript">
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-41301237-1', 'mylust.xxx');
+		ga('send', 'pageview');
+	</script>
+</head>
+<body>
+	<div class="header">
+			<a class="title" href="{{ url_for("catalog.index") }}">{{ _("MyLust.XXX") }}</a>
+			<div class="subtitle">{{ _("The best place to satisfy your lust in the net") }}</div>
+			<div class="subsubtitle">{{ _("Free daily updated adult video catalog") }}</div>
+			
+			{% if not hide_search %}
+				<div class="search">
+					<form method="POST" action="{{ url_for("catalog.search") }}">
+						<input class="search_term" name="search_term" type="text" value="{{ search_term }}" placeholder="{{ _("type your search query and hit enter") }}">
+					</form>
+				</div>
+			{% endif %}
+	</div>
+
+	<div class="content">
+		<div class="title">
+			<h1 class="name">{% block subtitle %}{% endblock %}</h1>
+			<div class="flags">
+				{% for country_code in config.get("LANGUAGES").keys() %}
+					<a title="{{ _("Switch language to %(locale)s", locale=country_code.upper()) }}" href="{{ url_for("catalog.index", lang_code=country_code) }}"><img src="{{ url_for('static', filename='img/blank.gif') }}" class="flag flag-{{country_code}} {% if country_code != g.lang_code %}flag-inactive{% endif %}" alt="{{ _("Switch language to %(locale)s", locale=country_code.upper()) }}"></a>
+				{% endfor %}
+			</div>
+			<div class="clear"></div>
+		</div>
+
+		{% block content %}
+		{% endblock %}
+	</div>
+
+	<div class="footer">
+		<a href="{{ url_for("catalog.page", slug="disclaimer") }}">{{ _("Disclaimer") }}</a> &#8226; <a href="{{ url_for("catalog.page", slug="contact_us") }}">{{ _("Contact us") }}</a>
+	</div>
+</body>
+</html>

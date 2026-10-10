@@ -1,0 +1,23 @@
+# Python requirements list
+anyjson
+
+flask
+flask-sqlalchemy
+flask-babel
+flask-assets
+flask-cache
+flask-wtf
+flask-mail
+flask-and-redis
+flask-script
+
+scrapy
+celery
+requests
+pygeoip
+yuicompressor
+alembic
+translate
+python-slugify
+python-memcached
+redis
